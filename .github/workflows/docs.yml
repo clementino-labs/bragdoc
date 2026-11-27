@@ -19,24 +19,34 @@ jobs:
     steps:
       - uses: actions/checkout@v6
         with:
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
           ref: ${{ github.event.pull_request.head.ref }}
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - uses: actions/setup-go@v6
         name: setup-go
         with:
-          go-version: '1.24'
+          go-version: '1.25'
 
       - name: update-docs
+        run: ./generate_docs.sh
+
+      - name: commit-and-push
+        if: github.event.pull_request.head.repo.full_name == github.repository
         run: |
-          ./generate_docs.sh
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add docs/commands/
           git diff --staged --quiet || git commit -m 'chore: update CLI documentation'
-
-      - name: push-changes
-        run: |
           git push origin HEAD:${{ github.event.pull_request.head.ref }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: verify-docs
+        if: github.event.pull_request.head.repo.full_name != github.repository
+        run: |
+          if [ -n "$(git status --porcelain docs/commands/)" ]; then
+            echo "::error::CLI documentation in docs/commands/ is out of date. Run './generate_docs.sh' locally and commit the updated files."
+            git status --short docs/commands/
+            exit 1
+          fi
