@@ -2,6 +2,7 @@ package mcp
 
 import (
 	"context"
+	"time"
 
 	"github.com/modelcontextprotocol/go-sdk/mcp"
 	"github.com/vagnerclementino/bragdoc/internal/domain"
@@ -51,7 +52,7 @@ func toUserResponse(u *domain.User) UserResponse {
 		JobTitle:  u.JobTitle,
 		Company:   u.Company,
 		Locale:    string(u.Locale),
-		CreatedAt: u.CreatedAt.Format("2006-01-02T15:04:05Z"),
-		UpdatedAt: u.UpdatedAt.Format("2006-01-02T15:04:05Z"),
+		CreatedAt: u.CreatedAt.UTC().Format(time.RFC3339),
+		UpdatedAt: u.UpdatedAt.UTC().Format(time.RFC3339),
 	}
 }

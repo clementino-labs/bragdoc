@@ -3,6 +3,7 @@ package mcp
 import (
 	"context"
 	"fmt"
+	"time"
 
 	"github.com/modelcontextprotocol/go-sdk/mcp"
 	"github.com/vagnerclementino/bragdoc/internal/domain"
@@ -90,6 +91,6 @@ func toTagResponse(t *domain.Tag) TagResponse {
 		ID:        t.ID,
 		Name:      t.Name,
 		OwnerID:   t.OwnerID,
-		CreatedAt: t.CreatedAt.Format("2006-01-02T15:04:05Z"),
+		CreatedAt: t.CreatedAt.UTC().Format(time.RFC3339),
 	}
 }

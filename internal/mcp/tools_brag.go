@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"time"
 
 	"github.com/modelcontextprotocol/go-sdk/mcp"
 	"github.com/vagnerclementino/bragdoc/internal/domain"
@@ -195,8 +196,8 @@ func toBragResponse(b *domain.Brag) BragResponse {
 		Description: b.Description,
 		Category:    string(b.Category.Name),
 		Tags:        tags,
-		CreatedAt:   b.CreatedAt.Format("2006-01-02T15:04:05Z"),
-		UpdatedAt:   b.UpdatedAt.Format("2006-01-02T15:04:05Z"),
+		CreatedAt:   b.CreatedAt.UTC().Format(time.RFC3339),
+		UpdatedAt:   b.UpdatedAt.UTC().Format(time.RFC3339),
 	}
 }
 

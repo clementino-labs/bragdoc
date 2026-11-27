@@ -210,8 +210,13 @@ func TestProperty_BragListInvariant(t *testing.T) {
 // **Validates: Requirements 2.8**
 func TestProperty_InvalidCategoryError(t *testing.T) {
 	rapid.Check(t, func(t *rapid.T) {
-		// Generate a lowercase string that cannot be a valid category
-		invalidCat := rapid.StringMatching(`[a-z]{3,15}`).Draw(t, "invalidCategory")
+		// Generate a string guaranteed not to match any valid category (ParseCategory is case-insensitive)
+		invalidCat := rapid.StringMatching(`[a-z]{3,15}`).
+			Filter(func(s string) bool {
+				_, err := domain.ParseCategory(s)
+				return err != nil
+			}).
+			Draw(t, "invalidCategory")
 
 		ctx := context.Background()
 		fx := newTestServer()

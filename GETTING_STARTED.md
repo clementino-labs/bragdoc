@@ -35,7 +35,7 @@ Bragdoc is built from source using Go and requires a **C compiler** because it u
 
 #### Go
 
-Go **1.24 or higher** is required. Download from [go.dev/dl](https://go.dev/dl/).
+Go **1.25 or higher** is required. Download from [go.dev/dl](https://go.dev/dl/).
 
 #### C Compiler
 

@@ -48,7 +48,7 @@ Before building, make sure you have the following installed:
 
 | Requirement | Version | Notes |
 |---|---|---|
-| [Go](https://go.dev/dl/) | 1.24+ | Required |
+| [Go](https://go.dev/dl/) | 1.25+ | Required |
 | C compiler | any | Required by `go-sqlite3` (CGO) |
 
 A C compiler is **required** because the project uses [`go-sqlite3`](https://github.com/mattn/go-sqlite3), a CGO-based package. Install it for your OS:
